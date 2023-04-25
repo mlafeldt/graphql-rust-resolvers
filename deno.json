@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "build": "deno run -A https://deno.land/x/wasmbuild@0.11.0/main.ts --out wasm",
+    "deploy": "deno task build && deployctl deploy --project=$DENO_DEPLOY_PROJECT --include=wasm,index.ts index.ts --prod",
+    "dev": "deno task build && deno run --allow-read=. --allow-net=0.0.0.0:8000 --watch=wasm index.ts"
+  },
+  "fmt": {
+    "files": {
+      "exclude": ["target"]
+    },
+    "options": {
+      "lineWidth": 120,
+      "semiColons": false
+    }
+  }
+}
