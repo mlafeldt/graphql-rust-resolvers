@@ -41,4 +41,4 @@ Test the resolvers with curl:
 {"data":{"counter":3}}
 ```
 
-Open the endpoint in a browser for interactive testing with GraphiQL.
+You can also open the endpoint in a browser for interactive testing with GraphiQL.
