@@ -27,8 +27,8 @@ deno task deploy
 
 Test the resolvers with curl:
 
-```
-❯ export GRAPHQL_ENDPOINT=https://${DENO_DEPLOY_PROJECT}.deno.dev  # or http://localhost:8000
+```console
+❯ GRAPHQL_ENDPOINT=https://${DENO_DEPLOY_PROJECT}.deno.dev  # or http://localhost:8000
 
 ❯ curl $GRAPHQL_ENDPOINT --json '{"query": "query {username(id: 1234)}"}'
 {"data":{"username":"User #1234"}}
