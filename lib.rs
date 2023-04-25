@@ -8,18 +8,20 @@ lazy_static::lazy_static! {
 }
 
 #[wasm_bindgen]
-pub fn counter() -> usize {
+pub fn counter() -> Result<usize, JsValue> {
     console_error_panic_hook::set_once();
 
-    let mut counter = COUNTER.lock().unwrap();
+    let mut counter = COUNTER.lock().map_err(|e| e.to_string())?;
     *counter += 1;
+
     log!(format!("counter = {}", *counter));
-    *counter
+
+    Ok(*counter)
 }
 
 // TODO: provide a better interface, possibly via a macro or code generation
 #[wasm_bindgen]
-pub fn username(_parent: JsValue, args: JsValue, _context: JsValue, _info: JsValue) -> String {
+pub fn username(_parent: JsValue, args: JsValue, _context: JsValue, _info: JsValue) -> Result<String, JsValue> {
     console_error_panic_hook::set_once();
 
     #[derive(serde::Deserialize)]
@@ -27,8 +29,10 @@ pub fn username(_parent: JsValue, args: JsValue, _context: JsValue, _info: JsVal
         id: String,
     }
 
-    let args: Args = serde_wasm_bindgen::from_value(args).unwrap();
+    let args: Args = serde_wasm_bindgen::from_value(args)?;
     let name = format!("User #{}", args.id);
+
     log!(format!("username = {:?}", name));
-    name
+
+    Ok(name)
 }
