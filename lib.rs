@@ -17,6 +17,7 @@ pub fn counter() -> usize {
     *counter
 }
 
+// TODO: provide a better interface, possibly via a macro or code generation
 #[wasm_bindgen]
 pub fn username(_parent: JsValue, args: JsValue, _context: JsValue, _info: JsValue) -> String {
     console_error_panic_hook::set_once();
