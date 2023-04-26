@@ -1,7 +1,7 @@
 // @generated file from wasmbuild -- do not edit
 // deno-lint-ignore-file
 // deno-fmt-ignore-file
-// source-hash: 96484a37f6807115ace776e134d5bc8cdaa363d2
+// source-hash: a2aab79c8a24111bf83cd39e9686251bad6c5666
 let wasm
 
 const heap = new Array(128).fill(undefined)
@@ -183,25 +183,6 @@ function debugString(val) {
   // TODO we could test for more things here, like `Set`s and `Map`s.
   return className
 }
-
-let cachedUint32Memory0 = null
-
-function getUint32Memory0() {
-  if (cachedUint32Memory0 === null || cachedUint32Memory0.byteLength === 0) {
-    cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer)
-  }
-  return cachedUint32Memory0
-}
-
-function getArrayJsValueFromWasm0(ptr, len) {
-  const mem = getUint32Memory0()
-  const slice = mem.subarray(ptr / 4, ptr / 4 + len)
-  const result = []
-  for (let i = 0; i < slice.length; i++) {
-    result.push(takeObject(slice[i]))
-  }
-  return result
-}
 /**
  * @returns {number}
  */
@@ -248,6 +229,25 @@ export function username(_parent, args, _context, _info) {
     wasm.__wbindgen_add_to_stack_pointer(16)
     wasm.__wbindgen_free(ptr0, len0)
   }
+}
+
+let cachedUint32Memory0 = null
+
+function getUint32Memory0() {
+  if (cachedUint32Memory0 === null || cachedUint32Memory0.byteLength === 0) {
+    cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer)
+  }
+  return cachedUint32Memory0
+}
+
+function getArrayJsValueFromWasm0(ptr, len) {
+  const mem = getUint32Memory0()
+  const slice = mem.subarray(ptr / 4, ptr / 4 + len)
+  const result = []
+  for (let i = 0; i < slice.length; i++) {
+    result.push(takeObject(slice[i]))
+  }
+  return result
 }
 
 const imports = {
@@ -306,6 +306,36 @@ const imports = {
       const ret = new Error(getStringFromWasm0(arg0, arg1))
       return addHeapObject(ret)
     },
+    __wbindgen_string_new: function (arg0, arg1) {
+      const ret = getStringFromWasm0(arg0, arg1)
+      return addHeapObject(ret)
+    },
+    __wbg_log_1f7f93998ab961f7: function (arg0, arg1) {
+      var v0 = getArrayJsValueFromWasm0(arg0, arg1).slice()
+      wasm.__wbindgen_free(arg0, arg1 * 4)
+      console.log(...v0)
+    },
+    __wbindgen_is_object: function (arg0) {
+      const val = getObject(arg0)
+      const ret = typeof (val) === "object" && val !== null
+      return ret
+    },
+    __wbindgen_object_clone_ref: function (arg0) {
+      const ret = getObject(arg0)
+      return addHeapObject(ret)
+    },
+    __wbg_getwithrefkey_15c62c2b8546208d: function (arg0, arg1) {
+      const ret = getObject(arg0)[getObject(arg1)]
+      return addHeapObject(ret)
+    },
+    __wbindgen_is_undefined: function (arg0) {
+      const ret = getObject(arg0) === undefined
+      return ret
+    },
+    __wbindgen_in: function (arg0, arg1) {
+      const ret = getObject(arg0) in getObject(arg1)
+      return ret
+    },
     __wbg_new_abda76e883ba8a5f: function () {
       const ret = new Error()
       return addHeapObject(ret)
@@ -338,36 +368,6 @@ const imports = {
     },
     __wbg_set_17499e8aa4003ebd: function (arg0, arg1, arg2) {
       getObject(arg0).set(getObject(arg1), arg2 >>> 0)
-    },
-    __wbindgen_string_new: function (arg0, arg1) {
-      const ret = getStringFromWasm0(arg0, arg1)
-      return addHeapObject(ret)
-    },
-    __wbg_log_1f7f93998ab961f7: function (arg0, arg1) {
-      var v0 = getArrayJsValueFromWasm0(arg0, arg1).slice()
-      wasm.__wbindgen_free(arg0, arg1 * 4)
-      console.log(...v0)
-    },
-    __wbindgen_is_object: function (arg0) {
-      const val = getObject(arg0)
-      const ret = typeof (val) === "object" && val !== null
-      return ret
-    },
-    __wbindgen_object_clone_ref: function (arg0) {
-      const ret = getObject(arg0)
-      return addHeapObject(ret)
-    },
-    __wbg_getwithrefkey_15c62c2b8546208d: function (arg0, arg1) {
-      const ret = getObject(arg0)[getObject(arg1)]
-      return addHeapObject(ret)
-    },
-    __wbindgen_is_undefined: function (arg0) {
-      const ret = getObject(arg0) === undefined
-      return ret
-    },
-    __wbindgen_in: function (arg0, arg1) {
-      const ret = getObject(arg0) in getObject(arg1)
-      return ret
     },
     __wbindgen_debug_string: function (arg0, arg1) {
       const ret = debugString(getObject(arg1))

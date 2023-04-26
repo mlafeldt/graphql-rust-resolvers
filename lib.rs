@@ -1,11 +1,10 @@
 use std::sync::Mutex;
 
 use gloo_console::log;
+use once_cell::sync::Lazy;
 use wasm_bindgen::prelude::*;
 
-lazy_static::lazy_static! {
-    static ref COUNTER: Mutex<usize> = Mutex::new(0);
-}
+static COUNTER: Lazy<Mutex<usize>> = Lazy::new(|| Mutex::new(0));
 
 #[wasm_bindgen]
 pub fn counter() -> Result<usize, JsValue> {
