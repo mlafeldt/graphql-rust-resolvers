@@ -1,7 +1,7 @@
 // @generated file from wasmbuild -- do not edit
 // deno-lint-ignore-file
 // deno-fmt-ignore-file
-// source-hash: a2aab79c8a24111bf83cd39e9686251bad6c5666
+// source-hash: 1314d44a10bf844d5b657ced861c988f73266d5a
 let wasm
 
 const heap = new Array(128).fill(undefined)
@@ -183,53 +183,6 @@ function debugString(val) {
   // TODO we could test for more things here, like `Set`s and `Map`s.
   return className
 }
-/**
- * @returns {number}
- */
-export function counter() {
-  try {
-    const retptr = wasm.__wbindgen_add_to_stack_pointer(-16)
-    wasm.counter(retptr)
-    var r0 = getInt32Memory0()[retptr / 4 + 0]
-    var r1 = getInt32Memory0()[retptr / 4 + 1]
-    var r2 = getInt32Memory0()[retptr / 4 + 2]
-    if (r2) {
-      throw takeObject(r1)
-    }
-    return r0 >>> 0
-  } finally {
-    wasm.__wbindgen_add_to_stack_pointer(16)
-  }
-}
-
-/**
- * @param {any} _parent
- * @param {any} args
- * @param {any} _context
- * @param {any} _info
- * @returns {string}
- */
-export function username(_parent, args, _context, _info) {
-  try {
-    const retptr = wasm.__wbindgen_add_to_stack_pointer(-16)
-    wasm.username(retptr, addHeapObject(_parent), addHeapObject(args), addHeapObject(_context), addHeapObject(_info))
-    var r0 = getInt32Memory0()[retptr / 4 + 0]
-    var r1 = getInt32Memory0()[retptr / 4 + 1]
-    var r2 = getInt32Memory0()[retptr / 4 + 2]
-    var r3 = getInt32Memory0()[retptr / 4 + 3]
-    var ptr0 = r0
-    var len0 = r1
-    if (r3) {
-      ptr0 = 0
-      len0 = 0
-      throw takeObject(r2)
-    }
-    return getStringFromWasm0(ptr0, len0)
-  } finally {
-    wasm.__wbindgen_add_to_stack_pointer(16)
-    wasm.__wbindgen_free(ptr0, len0)
-  }
-}
 
 let cachedUint32Memory0 = null
 
@@ -248,6 +201,90 @@ function getArrayJsValueFromWasm0(ptr, len) {
     result.push(takeObject(slice[i]))
   }
   return result
+}
+
+const MutationFinalization = new FinalizationRegistry((ptr) => wasm.__wbg_mutation_free(ptr))
+/** */
+export class Mutation {
+  __destroy_into_raw() {
+    const ptr = this.ptr
+    this.ptr = 0
+    MutationFinalization.unregister(this)
+    return ptr
+  }
+
+  free() {
+    const ptr = this.__destroy_into_raw()
+    wasm.__wbg_mutation_free(ptr)
+  }
+  /**
+   * @returns {number}
+   */
+  static counter() {
+    try {
+      const retptr = wasm.__wbindgen_add_to_stack_pointer(-16)
+      wasm.mutation_counter(retptr)
+      var r0 = getInt32Memory0()[retptr / 4 + 0]
+      var r1 = getInt32Memory0()[retptr / 4 + 1]
+      var r2 = getInt32Memory0()[retptr / 4 + 2]
+      if (r2) {
+        throw takeObject(r1)
+      }
+      return r0 >>> 0
+    } finally {
+      wasm.__wbindgen_add_to_stack_pointer(16)
+    }
+  }
+}
+
+const QueryFinalization = new FinalizationRegistry((ptr) => wasm.__wbg_query_free(ptr))
+/** */
+export class Query {
+  __destroy_into_raw() {
+    const ptr = this.ptr
+    this.ptr = 0
+    QueryFinalization.unregister(this)
+    return ptr
+  }
+
+  free() {
+    const ptr = this.__destroy_into_raw()
+    wasm.__wbg_query_free(ptr)
+  }
+  /**
+   * @param {any} _parent
+   * @param {any} args
+   * @param {any} _context
+   * @param {any} _info
+   * @returns {string}
+   */
+  static username(_parent, args, _context, _info) {
+    try {
+      const retptr = wasm.__wbindgen_add_to_stack_pointer(-16)
+      wasm.query_username(
+        retptr,
+        addHeapObject(_parent),
+        addHeapObject(args),
+        addHeapObject(_context),
+        addHeapObject(_info),
+      )
+      var r0 = getInt32Memory0()[retptr / 4 + 0]
+      var r1 = getInt32Memory0()[retptr / 4 + 1]
+      var r2 = getInt32Memory0()[retptr / 4 + 2]
+      var r3 = getInt32Memory0()[retptr / 4 + 3]
+      var ptr0 = r0
+      var len0 = r1
+      if (r3) {
+        ptr0 = 0
+        len0 = 0
+        throw takeObject(r2)
+      }
+      return getStringFromWasm0(ptr0, len0)
+    } finally {
+      wasm.__wbindgen_add_to_stack_pointer(16)
+      wasm.__wbindgen_free(ptr0, len0)
+    }
+  }
 }
 
 const imports = {
@@ -306,19 +343,14 @@ const imports = {
       const ret = new Error(getStringFromWasm0(arg0, arg1))
       return addHeapObject(ret)
     },
-    __wbindgen_string_new: function (arg0, arg1) {
-      const ret = getStringFromWasm0(arg0, arg1)
-      return addHeapObject(ret)
-    },
-    __wbg_log_1f7f93998ab961f7: function (arg0, arg1) {
-      var v0 = getArrayJsValueFromWasm0(arg0, arg1).slice()
-      wasm.__wbindgen_free(arg0, arg1 * 4)
-      console.log(...v0)
-    },
     __wbindgen_is_object: function (arg0) {
       const val = getObject(arg0)
       const ret = typeof (val) === "object" && val !== null
       return ret
+    },
+    __wbindgen_string_new: function (arg0, arg1) {
+      const ret = getStringFromWasm0(arg0, arg1)
+      return addHeapObject(ret)
     },
     __wbindgen_object_clone_ref: function (arg0) {
       const ret = getObject(arg0)
@@ -335,6 +367,11 @@ const imports = {
     __wbindgen_in: function (arg0, arg1) {
       const ret = getObject(arg0) in getObject(arg1)
       return ret
+    },
+    __wbg_log_1f7f93998ab961f7: function (arg0, arg1) {
+      var v0 = getArrayJsValueFromWasm0(arg0, arg1).slice()
+      wasm.__wbindgen_free(arg0, arg1 * 4)
+      console.log(...v0)
     },
     __wbg_new_abda76e883ba8a5f: function () {
       const ret = new Error()
@@ -416,7 +453,7 @@ let lastLoadPromise
  * @param {InstantiateOptions=} opts
  * @returns {Promise<{
  *   instance: WebAssembly.Instance;
- *   exports: { counter: typeof counter; username: typeof username }
+ *   exports: { Mutation : typeof Mutation ; Query : typeof Query  }
  * }>}
  */
 export function instantiateWithInstance(opts) {
@@ -444,7 +481,7 @@ export function instantiateWithInstance(opts) {
 }
 
 function getWasmInstanceExports() {
-  return { counter, username }
+  return { Mutation, Query }
 }
 
 /** Gets if the Wasm module has been instantiated. */

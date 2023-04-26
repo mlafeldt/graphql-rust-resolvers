@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.176.0/http/server.ts"
 
 console.log("Loading Wasm resolvers...")
 import { instantiate } from "./wasm/resolvers.generated.js"
-const { username, counter } = await instantiate()
+const { Query, Mutation } = await instantiate()
 
 const schema = createSchema({
   typeDefs: /* GraphQL */ `
@@ -15,8 +15,12 @@ const schema = createSchema({
     }
   `,
   resolvers: {
-    Query: { username },
-    Mutation: { counter },
+    Query: {
+      username: Query.username,
+    },
+    Mutation: {
+      counter: Mutation.counter,
+    },
   },
 })
 
